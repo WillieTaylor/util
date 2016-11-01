@@ -1,0 +1,4 @@
+..p- USER>>cat1 =30= cat1
+p-b- USER>>cat3 =30= cat3
+b-p- USER>>cat2 =30= cat2
+..b- USER>>cat4 =30= cat4

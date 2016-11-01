@@ -1,0 +1,5 @@
+PDBFILE set7n.pdb
+VDWFILE vdw.radii
+STDFILE standard.data
+PROBE 1.40
+ZSLICE 0.05

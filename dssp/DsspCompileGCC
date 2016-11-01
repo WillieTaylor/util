@@ -1,0 +1,10 @@
+echo "Running script to compile the CMBI version of DSSP, please wait..."
+gcc -c -O -Wall AccSurf.c
+gcc -c -O -Wall CalcAccSurf.c
+gcc -c -O -Wall Contacts.c
+gcc -c -O -Wall Date.c
+gcc -c -O -Wall DsspCMBI.c
+gcc -c -O -Wall Vector.c
+gcc -c -O -Wall p2clib.c
+gcc -o dsspcmbi DsspCMBI.o p2clib.o Date.o Vector.o AccSurf.o CalcAccSurf.o Contacts.o -lm
+echo "Type dsspcmbi PDBSourcefile DSSPDestinationfile to run the program..."

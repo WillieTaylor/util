@@ -1,0 +1,331 @@
+README - FILE 
+Naccess - accessibility calculations
+------------------------------------
+Simon Hubbard, 	Biomolecular Structure and Modelling Unit, 
+		University College, 
+		Gower Street, 
+		London, UK. 
+(present address):
+		Biocomputing,
+		EMBL, Postfach 102209,
+		Meyerhofstrasse 1,
+		69012 Heidelberg
+		Germany
+
+*****************************************************************************
+PLEASE NOTE - THERE IS A CONFIDENTIALITY AGREEMENT ATTACHED TO THE BOTTOM OF
+THIS README FILE. PLEASE PRINT IT, SIGN IT, AND SEND IT TO SIMON HUBBARD, AT
+THE PRESENT ADDRESS GIVEN ABOVE. THANKS VERY MUCH FOR YOUR COOPERATION
+*****************************************************************************
+
+Briefly, the naccess program calculates the atomic accessible surface defined
+by rolling a probe of given size around a van der Waals surface. This program
+is an implimentation of the method of Lee and Richards (1971) J.Mol.Biol.55,
+379-400. which does just that. The program is dimensioned for up to 20000
+atoms, and allows the variation of the probe size and atomic radii by the user.
+The program is written in (fairly) standard FORTRAN 77 and should compile
+on most UNIX platforms. It outputs 3 files: 
+
+1) An atomic accessibility file (.asa file) containing the calculated
+accessible surface for each atom in a PDB file, as well as the assigned van der
+Waal radii.
+
+2) A residue accessibility (.rsa) file containing summed atomic accessible
+surface areas over each protein residue, as well as the relative accessibility
+of each residue calculated as the %accessiblity compared to the accessibility
+of that residue type in an extended ALA-x-ALA tripeptide. See Hubbard, Campbell
+& Thornton (1991) J.Mol.Biol.220,507-530. You can prevent this file from being
+calculated if you don't need it.
+
+3) A log file (.log) containing information concerning the calculation.
+
+installation
+------------
+If you are reading this file you may have already done it ! You should
+have the following files in your installation directory:
+
+README          accall.f        standard.data   
+install.scr     naccess.scr     vdw.radii
+
+next just type "csh install.scr", and the program should be compiled
+for you, and then final script that runs everything should be "naccess"
+
+usage
+-----
+The program is run by a script called "naccess". At installation, the script
+is aliased to the command "naccess", but you should create your own alias, and
+include it in your .cshrc or some other script if you want to use the program
+regularly. Something of the form:
+
+alias naccess '/home/username/naccess_directory/naccess'
+
+To use the program, simply type "naccess", and the name of a valid PDB file,
+including the full path where appropriate. There are a number of other
+parameters that can be supplied, but in its simplest form, it might be
+something like:
+
+naccess /data/pdb/1crn.brk
+
+and would produce the files:
+
+1crn.asa 1crn.log 1crn.rsa
+
+The full usage is:
+naccess pdb_file -p probe_size -r vdw_radii_file -s std_data_file -z zslice -[hwyfac]"
+NOTE: use multiple options separately, ie: naccess test.pdb -p 1.20 -h -f -a
+
+The default probe size is 1.40 Angstroms. To use a probe of size 1.20 A type: 
+
+naccess /data/pdb/1crn.brk -p 1.2
+
+If you don't want to use the default van der Waal radii, taken from Chothia
+(1976) J.Mol.Biol.105,1-14, then you copy the file "vdw.radii" to another file
+and edit the values appropraitely. Then you can type:
+
+naccess /data/pdb/1crn.brk -r my.radii
+
+If you supply a file which doesn't exist, the program will default to the
+vdw.radii file. It looks for it first in the current directory, then the
+naccess executable directory, and then gives up !!
+
+The Lee and Richards method works by taking thin Z-slices through the molecule
+and calculating the exposed arc lengths for each atom in each slice, and then
+summing the arc lengths to the final area over all z-values. Hence, the zslice
+parameter controls accuracy and also speed of calculation. The default value is
+0.05 A, but can be changed. For rough, quick calculations, a value of 0.1 might
+be better. You can type:
+
+naccess /data/pdb/1crn.brk -z 0.1
+
+As a rough estimate, the program takes about 8 secs (real time) for crambin
+(1crn) using the default parameters on an IRIS Indigo workstation. Thats less
+than 2 cpu seconds.
+
+By default, the program ignores HETATM records, hydrogens, and waters. If you
+want these to be considered in the calculation supply a parameter of the form 
+-h, -w and/or -y respectively. You can type:
+
+naccess /data/pdb/5pti.brk -y 
+
+  or
+
+naccess /data/pdb/4pti.brk -w 
+
+  or
+
+naccess /data/pdb/4hhb.brk -h
+
+to see the effect of these parameters on the output files.
+
+If you require atomic *contact* areas rather than accessible areas - this
+is not the path traced by the probe centroid but the parts of the vdw surface
+that the probe actually touches - then use the -c option:
+
+naccess /data/pdb/4pti.brk -c 
+
+NOTE: The relative accessibilities (see .rsa files below) will be incorrect if
+you use this option. You can relcalulate them as contact areas if you wish 
+with standard ala-x-ala tripeptides, and create a new "standard.data" type 
+file to rectify this. I have the data for this if required - just send email.
+
+Apart from HEME groups, the van der Waals radii are not explicitly defined in
+the default vdw.radii file. You should add your own in if there are other
+HETATM groups you are explicitly interested in. Otherwise the program makes
+crude guesses at the respective radii !!
+
+The .rsa residue accessibility file is created using the file "standard.data"
+to calculate the percentage accessibilities. If these are unsatisfactory, edit
+them. Again, the program looks in the current directory for this file, and then
+the naccess executable directory. You can supply an alternative file using the
+-s option, which works like the -r option for van der Waals radii.
+
+example output files
+--------------------
+
+The first 2 residues from an example .asa file are shown below. The output
+format is PDB, with B-factors and occupancies removed, then atomic accessiblity
+in square Angstroms, followed by the assigned van der Waal radius. If you
+want to keep the occupancies and B-factors in, then use the -f option (full)
+which gives a slightly different (and larger) output format, but is compatible
+with the hydrogen bond calculation program HBPLUS from Ian McDonald.
+
+ATOM      1  N   THR     1      17.047  14.099   3.625  22.279  1.65
+ATOM      2  CA  THR     1      16.967  12.784   4.338  13.902  1.87
+ATOM      3  C   THR     1      15.685  12.755   5.133   0.000  1.76
+ATOM      4  O   THR     1      15.268  13.825   5.594   0.000  1.40
+ATOM      5  CB  THR     1      18.170  12.703   5.337   0.098  1.87
+ATOM      6  OG1 THR     1      19.334  12.829   4.463  17.632  1.40
+ATOM      7  CG2 THR     1      18.150  11.546   6.304  20.662  1.87
+ATOM      8  N   THR     2      15.115  11.555   5.265   3.568  1.65
+ATOM      9  CA  THR     2      13.856  11.469   6.066   0.000  1.87
+ATOM     10  C   THR     2      14.164  10.785   7.379   0.000  1.76
+ATOM     11  O   THR     2      14.993   9.862   7.443   5.072  1.40
+ATOM     12  CB  THR     2      12.732  10.711   5.261   0.010  1.87
+ATOM     13  OG1 THR     2      13.308   9.439   4.926  10.623  1.40
+ATOM     14  CG2 THR     2      12.484  11.442   3.895   2.739  1.87
+
+The beginning and end of an example .rsa file are shown below. The data is
+summed over residues, and split into 5 classes. Total (all atoms), Non Polar
+Sidechain (all non-oxygens and non-nitrogens in the sidechain), Polar Sidechain
+(all oxygens and nitrogens in the sidechain), total sidechain, and
+mainchain. For our purposes, alpha carbons are classed as sidechain atoms, so
+that glycine can have a sidechain accessibility. They are therefore not
+included in the mainchain. For each class, two values are given, an absolute
+(ABS) and relative (REL) accessibility. The absolute value is the simple sum,
+whilst the REL value is the % relative accessiblity. Absolute sums over the
+whole chain are also given.
+
+To avoid calculating and producing such a summary file, supply the program
+with the -a option, which speeds things up very slightly.
+
+REM  Relative accessibilites read from external file "standard.data"
+REM  File of summed (Sum) and % (per.) accessibilities for 
+REM RES _ NUM      All atoms   Non P side   Polar Side   Total Side   Main Chain
+REM                ABS   REL    ABS   REL    ABS   REL    ABS   REL    ABS   REL
+RES THR     1    74.57  53.6  34.66  46.5  17.63  65.1  52.29  51.4  22.28  59.3
+RES THR     2    22.01  15.8   2.75   3.7  10.62  39.2  13.37  13.2   8.64  23.0
+RES CYS     3     0.00   0.0   0.00   0.0   0.00   0.0   0.00   0.0   0.00   0.0
+RES CYS     4     0.00   0.0   0.00   0.0   0.00   0.0   0.00   0.0   0.00   0.0
+RES PRO     5    56.68  41.7  35.69  29.8   0.00   0.0  35.69  29.8  20.99 129.7
+RES SER     6    47.13  40.4  38.49  82.2   8.64  27.6  47.13  60.3   0.00   0.0
+RES ILE     7   128.73  73.5 125.65  91.1   0.00   0.0 125.65  91.1   3.08   8.3
+RES VAL     8   105.50  69.7 105.09  92.1   0.00   0.0 105.09  92.1   0.41   1.1
+RES ALA     9     7.27   6.7   7.25  10.5   0.00   0.0   7.25  10.5   0.02   0.1
+RES ARG    10    59.72  25.1  32.20  42.4  27.52  22.1  59.72  29.8   0.00   0.0
+ .   .      .      .      .     .      .     .      .     .      .     .      .
+ .   .      .      .      .     .      .     .      .     .      .     .      .
+ .   .      .      .      .     .      .     .      .     .      .     .      .
+RES CYS    40    44.85  33.4  21.95  22.7   0.00   0.0  21.95  22.7  22.91  60.9
+RES PRO    41    58.28  42.9  57.71  48.2   0.00   0.0  57.71  48.2   0.58   3.6
+RES GLY    42    73.98  92.1  37.27 115.5   0.00   0.0  37.27 115.5  36.71  76.3
+RES ASP    43   104.18  74.2  51.10 106.4  40.84  74.9  91.93  89.6  12.25  32.4
+RES TYR    44    58.25  27.5  20.28  15.1  37.96  90.4  58.24  33.0   0.02   0.0
+RES ALA    45    73.77  68.4  43.17  62.4   0.00   0.0  43.17  62.4  30.59  79.1
+RES ASN    46    64.22  44.6   6.47  14.4  42.16  68.8  48.62  45.8  15.59  41.2
+END  Absolute sums over accessible surface 
+TOTAL          2987.2       1990.9        518.4       2509.3        477.9
+
+An example .log file follows
+
+ ACCALL - Accessibility calculations
+ PDB FILE INPUT /data/pdb/1crn.brk
+ PROBE SIZE       1.40
+ Z-SLICE WIDTH   0.050
+ VDW RADII FILE vdw.radii
+ EXCL HETATOMS
+ EXCL HYDROGENS
+ EXCL WATERS
+ READVDW  25 residues input
+ NON-STANDARD atom. OXT in residue> ASN    46 
+ GUESSED vdw of  OXT in ASN    46  =  1.40
+ ADDED VDW RADII
+ CHAINS       1
+ RESIDUES    46
+ ATOMS      327
+ SOLVA: PROGRAM ENDS CORRECTLY
+ CALCULATED ATOMIC ACCESSIBILITES
+ RELATIVE (STANDARD) ACCESSIBILITIES READFOR  23 AMINO ACIDS
+ SUMMED ACCESSIBILITIES OVER RESIDUES
+
+support
+-------
+All queries and questions to "hubbard@embl-heidelberg.de". I hope it all works.
+
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+
+
+CONFIDENTIALITY AGREEMENT
+=========================
+
+Correspondence to:
+Dr. Simon Hubard
+Argos Group,
+Biocomputing,
+EMBL,
+Postfach 10.2209
+Meyerhofstrasse 1,
+69102 HEIDELBERG,
+GERMANY
+
+Email (Internet): IN%"hubbard@embl-heidelberg.de"
+
+
+	           Naccess - Accessibility calculations
+                   ------------------------------------          
+
+			CONFIDENTIALITY AGREEMENT
+			-------------------------
+
+
+
+In regard to the NACCESS programs, specified in Appendix 1 herewith (the
+Software) supplied to us, the copyright and other intellectual property
+rights to which belong to the authors, we
+
+    __________________________________________________________________
+
+undertake to the authors that we shall be bound by the following terms and
+conditions:-
+
+1. We will receive the Software and any related documentation in confidence
+and will not use the same except for the purpose of the department's own 
+research. The Software will be used only by such of our officers or
+employees to whom it must reasonably be communicated to enable us to
+undertake our research and who agree to be bound by the same confidence.
+The department shall procure and enforce such agreement from its staff for
+the benefit of the authors.
+
+2. The publication of research using the Software should reference Hubbard,S.J.
+& Thornton, J.M. (1993), 'NACCESS', Computer Program, Department of 
+Biochemistry and Molecular Biology, University College London." or successor 
+references as defined by the authors.
+
+3. Research shall take place solely at the department's premises at
+
+    __________________________________________________________________
+
+4. All forms of the Software will be kept in a reasonably secure place to
+prevent unauthorised access.
+
+5. Each copy of the Software or, if not practicable then, any package
+associated therewith shall be suitably marked (and such marking maintained)
+with the following copyright notice: "Copyright 1992-3 Simon Hubbard and 
+Janet M Thornton All Rights Reserved".
+
+6. The Software may be modified but any changes made shall be made
+available to the authors.
+
+7. The Software shall be used exclusively for academic teaching and
+research. The Software will not be used for any commercial research or
+research associated with an industrial company.
+
+8. The confidentiality obligation in paragraph one shall not apply:
+
+   (i)  to information and data known to the department at the time of
+	receipt hereunder (as evidenced by its written records);
+
+  (ii)	to information and data which was at the time of receipt in the 
+	public domain or thereafter becomes so through no wrongful act of
+	the department;
+
+ (iii)	to information and data which the department receives from a third
+	party not in breach of any obligation of confidentiality owed to
+	the authors.
+
+
+
+Please sign this Undertaking and return a copy of it to indicate that you 
+have read, understood and accepted the above terms.
+
+
+
+		      For and on behalf of _____________________________
+
+		      _________________________________________________
+		     
+		      ..................................................
+
+		      Dated ............................................
+
+README - END

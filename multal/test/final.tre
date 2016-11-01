@@ -1,0 +1,28 @@
+...........| ALNS>USER>>AFHT01000003.1/9258-9363 =0= [+0+] AFHT01000003.1/9258-9363 Desmospora sp. 8437 contig00003, whole genome shotgun sequence.
+...........| ALNS>USER>>ADGO01002641.1/175-278 =0= [+0+] ADGO01002641.1/175-278 Compost metagenome contig02659, whole genome shotgun sequence.
+...........| ALNS>USER>>AP012029.1/1965096-1964993 =0= [+0+] AP012029.1/1965096-1964993 Anaerolinea thermophila TNI-1 DNA, complete genome.
+...........| ALNS>USER>>CP001983.1/3652588-3652482 =0= [+1+] CP001983.1/3652588-3652482 Bacillus megaterium QM B1551, complete genome.
+...........| ALNS>USER>>ACMR01000082.1/17402-17507 =0= [+0+] ACMR01000082.1/17402-17507 Bacillus cereus AH1271 contig00092, whole genome shotgun sequence.
+...........| ALNS>USER>>ACLS01000056.1/23480-23585 =0= [+11+] ACLS01000056.1/23480-23585 Bacillus cereus m1293 contig00969, whole genome shotgun sequence.
+...........| ALNS>USER>>AAOX01000006.1/96737-96624 =0= [+0+] AAOX01000006.1/96737-96624 Bacillus sp. NRRL B-14911 1099999053146, whole genome shotgun sequence.
+...........| ALNS>USER>>AGHO01000382.1/3971-4084 =0= [+0+] AGHO01000382.1/3971-4084 Streptococcus sobrinus TCI-157 contig00382, whole genome shotgun sequence.
+...........| ALNS>USER>>CP001983.1/1280655-1280549 =0= [+2+] CP001983.1/1280655-1280549 Bacillus megaterium QM B1551, complete genome.
+...........| ALNS>USER>>AE017333.1/1292148-1292264 =0= [+2+] AE017333.1/1292148-1292264 Bacillus licheniformis DSM 13, complete genome.
+...........| ALNS>USER>>AE017333.1/1207733-1207622 =0= [+2+] AE017333.1/1207733-1207622 Bacillus licheniformis DSM 13, complete genome.
+...........| ALNS>USER>>CP002304.1/1093643-1093746 =0= [+0+] CP002304.1/1093643-1093746 Halanaerobium hydrogeniformans, complete genome.
+...........| ALNS>USER>>ACVI01000030.1/45311-45414 =0= [+1+] ACVI01000030.1/45311-45414 Clostridium carboxidivorans P7 ctg00117, whole genome shotgun sequence.
+........p==# ALNS>USER>>ABDT01000031.2/132-23 =0= [+1+] ABDT01000031.2/132-23 Clostridium butyricum 5521 gcontig_1106103650278, whole genome shotgun sequence.
+......p-b-p- USER>>ACMR01000082.1/17402-17507 =0= [+0+] ACMR01000082.1/17402-17507 Bacillus cereus AH1271 contig00092, whole genome shotgun sequence.
+......|...b- USER>>ACLS01000056.1/23480-23585 =0= [+11+] ACLS01000056.1/23480-23585 Bacillus cereus m1293 contig00969, whole genome shotgun sequence.
+....p-b-p--- USER>>AAOX01000006.1/96737-96624 =0= [+0+] AAOX01000006.1/96737-96624 Bacillus sp. NRRL B-14911 1099999053146, whole genome shotgun sequence.
+....|...b--- USER>>AGHO01000382.1/3971-4084 =0= [+0+] AGHO01000382.1/3971-4084 Streptococcus sobrinus TCI-157 contig00382, whole genome shotgun sequence.
+..p-b-----p- USER>>ACVI01000030.1/45311-45414 =0= [+1+] ACVI01000030.1/45311-45414 Clostridium carboxidivorans P7 ctg00117, whole genome shotgun sequence.
+..|.......b- USER>>ABDT01000031.2/132-23 =0= [+1+] ABDT01000031.2/132-23 Clostridium butyricum 5521 gcontig_1106103650278, whole genome shotgun sequence.
+..|.....p--- USER>>CP001983.1/1280655-1280549 =0= [+2+] CP001983.1/1280655-1280549 Bacillus megaterium QM B1551, complete genome.
+p-b---p-b--- USER>>AE017333.1/1292148-1292264 =0= [+2+] AE017333.1/1292148-1292264 Bacillus licheniformis DSM 13, complete genome.
+|.....b-p--- USER>>CP002304.1/1093643-1093746 =0= [+0+] CP002304.1/1093643-1093746 Halanaerobium hydrogeniformans, complete genome.
+|.......b--- USER>>AE017333.1/1207733-1207622 =0= [+2+] AE017333.1/1207733-1207622 Bacillus licheniformis DSM 13, complete genome.
+|.....p----- USER>>AFHT01000003.1/9258-9363 =0= [+0+] AFHT01000003.1/9258-9363 Desmospora sp. 8437 contig00003, whole genome shotgun sequence.
+b---p-b-p--- USER>>ADGO01002641.1/175-278 =0= [+0+] ADGO01002641.1/175-278 Compost metagenome contig02659, whole genome shotgun sequence.
+....|...b--- USER>>AP012029.1/1965096-1964993 =0= [+0+] AP012029.1/1965096-1964993 Anaerolinea thermophila TNI-1 DNA, complete genome.
+....b------- USER>>CP001983.1/3652588-3652482 =0= [+1+] CP001983.1/3652588-3652482 Bacillus megaterium QM B1551, complete genome.
